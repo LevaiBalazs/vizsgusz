@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.MainController">
+   <children>
+      <TableView fx:id="restorationTable" layoutY="8.0" prefHeight="388.0" prefWidth="407.0">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="36.0" text="Id" />
+          <TableColumn fx:id="paintingidCol" prefWidth="78.0" text="PaintingId" />
+            <TableColumn fx:id="datumCol" prefWidth="75.0" text="Datum" />
+            <TableColumn fx:id="muveletCol" prefWidth="75.0" text="Muvelet" />
+            <TableColumn fx:id="megjegyzesCol" prefWidth="134.0" text="Megjegyzes" />
+        </columns>
+      </TableView>
+      <Label layoutX="416.0" layoutY="44.0" text="Festmény azonosító" />
+      <TextField fx:id="paintingidField" layoutX="416.0" layoutY="62.0" />
+      <Label layoutX="424.0" layoutY="108.0" text="Dátum" />
+      <Label layoutX="416.0" layoutY="182.0" text="Művelet" />
+      <Label layoutX="416.0" layoutY="251.0" text="Megjegyzés" />
+      <DatePicker fx:id="datumPicker" layoutX="416.0" layoutY="126.0" />
+      <TextField fx:id="muveletField" layoutX="416.0" layoutY="202.0" />
+      <TextField fx:id="megjegyzesField" layoutX="416.0" layoutY="269.0" />
+      <Button layoutX="419.0" layoutY="314.0" mnemonicParsing="false" onAction="#onClickAddButton" text="Hozzáadás" />
+   </children>
+</Pane>

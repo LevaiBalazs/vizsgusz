@@ -1,0 +1,11 @@
+ASP .NET Core Web API
+weather forecast kitörlendő
+Models mappa:
+	benne classok	
+		getter setter a konstruktorhoz
+	controllers mappa jobb klikk
+		add new scaffolded item
+			API controller with actions using ENTITY Framework
+		nuget package console
+		add-migration "nev"
+		update-database
