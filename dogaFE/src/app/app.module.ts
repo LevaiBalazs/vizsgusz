@@ -7,12 +7,18 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ListitemComponent } from './listitem/listitem.component';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListitemComponent
+    ListitemComponent,
+    NavbarComponent,
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

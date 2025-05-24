@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { first, Subscription } from 'rxjs';
-import { Brand } from '../models/brand.model';
+import { first, min, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-listitem',
@@ -11,74 +10,96 @@ import { Brand } from '../models/brand.model';
 })
 export class ListitemComponent implements OnInit, OnDestroy {
   title = 'BrandFrontend';
-  oszlopok=[
-    {key: "id", text: "ID", type: "number"},
-    {key: "name", text: "Name", type: "text"},
-    {key: "brand", text: "Brand", type: "text"},
-    {key: "type", text: "Type", type: "text"},
-    {key: "price", text: "Price", type: "number"},
-    {key: "image_url", text: "Image URL", type: "text"}
+  oszlopok = [
+    { key: 'id', text: 'ID', type: 'number' },
+    { key: 'firstName', text: 'First Name', type: 'text' },
+    { key: 'lastName', text: 'Last Name', type: 'text' },
+    { key: 'age', text: 'Age', type: 'number' },
+    { key: 'occupation', text: 'Occupation', type: 'text' },
   ];
-  brands: any;
-  newBrand: any = {};
-  feliratkozas!: Subscription;
-  error = false;
-  errorText = "";
+  users: any;
+  newUser: any = {};
+  sub!: Subscription;
+  alertMessage: string | null = null;
+  isError: boolean = false;
+  timeoutId: any = null;
 
   constructor(private apiService: ApiService) {}
 
+  
+
   ngOnInit(): void {
-    this.getBrand();
+    this.getUsers();
   }
 
   ngOnDestroy(): void {
-    if (this.feliratkozas) this.feliratkozas.unsubscribe();
+    if (this.sub) this.sub.unsubscribe();
   }
 
-  getBrand(): void {
-    this.feliratkozas = this.apiService.getBrand().subscribe({
+  getUsers(): void {
+    this.sub = this.apiService.getUser().subscribe({
       next: (res: any) => {
-        this.brands = res;
-        this.error = false;
+        this.users = res;
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
-        this.error = true;
-        this.errorText = err.message;
+        this.showMessage(err.error, true, 5000);
+      },
+    });
+  }
+
+  createUser(): void {
+    this.apiService.createUser(this.newUser).subscribe({
+      next: (res: any) => {
+        this.getUsers();
+        this.newUser = {};
+        this.showMessage(res, false, 3000);
+      },
+      error: (err: HttpErrorResponse) => {
+        let errorMessage = err.message.toString();
+        this.showMessage(errorMessage, true, 5000);
       }
     });
   }
 
-  createBrand(): void {
-    this.apiService.createBrand(this.newBrand).subscribe(() => {
-      this.getBrand();
-      this.newBrand = {};
+  updateUser(User: any): void {
+    this.apiService.updateUser(User, User.id).subscribe({
+      next: (res: any) => {
+        this.getUsers();
+        this.showMessage(res, false, 3000);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.showMessage(err.message, true, 5000);
+      },
     });
   }
 
-  updateBrand(Brand: any): void {
-    this.apiService.updateBrand(Brand, Brand.id).subscribe(() => this.getBrand());
+  deleteUser(id: number): void {
+    this.apiService.deleteUser(id).subscribe({
+      next: (res: any) => {
+        this.getUsers();
+        this.showMessage(res, false, 3000);
+      },
+      error: (err: HttpErrorResponse) => {
+        let errorMessage = JSON.stringify(err.message);
+        this.showMessage(errorMessage, true, 5000);
+      },
+    });
   }
 
-  patchBrand(brand: any, id: number): void {
-    this.apiService.getBrand().pipe(
-      first()).subscribe(
-      (brands:any)=> {
-        const currentBrand = brands.find((x:any) => x.id === id)!
-        const updatedKeys: string[] = ["id"]
-        console.log(currentBrand, brand)
-        for (const [k, v] of Object.entries(brand)){
-          if (currentBrand[k]!= v){
-            updatedKeys.push(k)
-          }
-        }
-        const reqBody = Object.fromEntries(Object.entries(brand).filter(([k, v]: any) => updatedKeys.includes(k)))
-        this.apiService.patchBrand(reqBody, id).subscribe(()=> this.getBrand())
-      }
-    )
+  showMessage(msg: string, isError: boolean, duration: number): void {
+    this.alertMessage = msg;
+    this.isError = isError;
+    
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+
+    this.timeoutId = setTimeout(() => {
+      this.alertMessage = null;
+      this.isError = false;
+      this.timeoutId = null;
+    }, duration);
   }
 
-  deleteBrand(id: number): void {
-    this.apiService.deleteBrand(id).subscribe(() => this.getBrand());
-  }
 }

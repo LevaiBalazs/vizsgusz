@@ -1,0 +1,12 @@
+input.form-control {
+  font-size: 0.95rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.btn-sm {
+  min-width: 75px;
+}
+
+h2 {
+  font-weight: 600;
+}

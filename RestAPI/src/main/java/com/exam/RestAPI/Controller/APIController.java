@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 public class APIController {
 
     @Autowired
@@ -27,8 +28,12 @@ public class APIController {
 
     @PostMapping("/user")
     public String  createUser(@RequestBody @Valid User user) {
-        userRepo.save(user);
-        return "User created!";
+        try {
+            userRepo.save(user);
+            return "User created!";
+        }catch (Exception exception) {
+            return "Error creating user: " + exception.getMessage();
+        }
     }
 
     @PutMapping("/user/{id}")
@@ -51,7 +56,7 @@ public class APIController {
                 return "Error: User with ID " + id + " not found.";
             }
         } catch (Exception exception) {
-            return "Error updating user: " + exception.getMessage();
+            return "Error updating user!" + exception.getMessage();
         }
 
     }

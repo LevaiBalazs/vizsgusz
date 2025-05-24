@@ -14,20 +14,20 @@ public class User {
     private long id;
 
     @Column
-    @NotBlank(message = "First name must not be blank")
+    @NotBlank(message = "First name must not be blank!")
     private String firstName;
 
     @Column
-    @NotBlank(message = "Last name must not be blank")
+    @NotBlank(message = "Last name must not be blank!")
     private String lastName;
 
     @Column
-    @Min(value = 0, message = "Age must be non-negative")
-    @NotNull(message = "Age must not be null")
+    @Min(value = 0, message = "Age must be non-negative!")
+    @NotNull(message = "Age must not be null!")
     private int age;
 
     @Column
-    @NotBlank(message = "Occupation must not be blank")
+    @NotBlank(message = "Occupation must not be blank!")
     private String occupation;
 
     public long getId() {
