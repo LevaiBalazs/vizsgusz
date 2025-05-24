@@ -1,0 +1,41 @@
+
+<div *ngIf="!error;else hiba" class="container">
+
+  <div class="row fw-bold my-3">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+      {{oszlop.text}}
+    </div> 
+    <div class="col">
+      Actions
+    </div>
+    </div>
+ 
+
+  <div  class="row my-1">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+      <input [(ngModel)]="newBrand[oszlop.key]" [type]="oszlop.type" class="form-control">
+      
+    </div>
+    <div class="col">
+      <button (click)="createBrand()" type="button" class="btn btn-primary btn-sm">Add</button>     
+    </div>
+  </div>
+
+  <div *ngFor="let item of brands" class="row my-1">
+    <div *ngFor="let oszlop of oszlopok" class="col">
+      <input [(ngModel)]="item[oszlop.key]" [type]="oszlop.type" class="form-control">
+    </div>
+    <div class="col">
+        <button (click)="patchBrand(item, item.id)" type="button" class="ms-3 btn btn-success btn-sm">Patch</button>
+        <button (click)="updateBrand(item)" type="button" class="btn btn-warning btn-sm">Update</button>
+        <button (click)="deleteBrand(item.id)" type="button" class="ms-3 btn btn-danger btn-sm">Delete</button>
+    </div>
+  </div>
+ 
+
+</div>
+<ng-template #hiba>
+  <div class="alert alert-danger" role="alert">
+    {{errorText}}
+  </div>
+</ng-template>
