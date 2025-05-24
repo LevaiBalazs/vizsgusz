@@ -9,3 +9,8 @@ Models mappa:
 		nuget package console
 		add-migration "nev"
 		update-database
+
+a javahoz meg:
+	https://start.spring.io/
+		maven 
+		spring web dependency
